@@ -1,14 +1,15 @@
 # VLC-WASD
-A VLC playlist for [WASD](https://wasd.tv/) - live streaming platform
+A VLC playlist for [WASD](https://wasd.tv/) — live-streaming platform
 
 ## Installation
-- [Check official wiki](https://wiki.videolan.org/Documentation:Building_Lua_Playlist_Scripts/#Introduction)
+1. Download latest version from [Releases](https://github.com/Mehavoid/vlc-wasd/releases) page.
+2. Place script in a [directory](https://wiki.videolan.org/Documentation:Building_Lua_Playlist_Scripts/#Introduction), depending on your OS.
 
 ## Usage
-1. Copy [URL](https://github.com/Mehavoid/vlc-wasd/blob/readme/README.md#faq) of channel
+1. Copy [URL](https://github.com/Mehavoid/vlc-wasd#faq) of channel
 2. Open media dialog  
 `Media -> Open Network Stream...`
-3. Paste a network URL and click `play`
+3. Paste a channel URL and click `play`
 
 ## F.A.Q
 - What URLs does it support?
