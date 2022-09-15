@@ -1,5 +1,5 @@
 # VLC-WASD
-A VLC playlist for [WASD](https://wasd.tv/) — live-streaming platform
+A VLC playlist parser for [WASD](https://wasd.tv/) — live-streaming platform
 
 ## Installation
 1. Download latest version from [Releases](https://github.com/Mehavoid/vlc-wasd/releases) page.
