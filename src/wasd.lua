@@ -50,7 +50,7 @@ end
 
 WASD = {
   api_call = function(path)
-    local cors = "https://corsbypasser.herokuapp.com/"
+    local cors = "https://0.wasd.workers.dev/?s="
 
     local data, _, err = get_json(cors.."https://wasd.tv/api/"..path)
 
