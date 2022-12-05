@@ -1,8 +1,3 @@
-local function is_empty(s)
-  return s == nil or s == ""
-end
-
-
 local function query_string(tab, sep)
   local query = {}
 
@@ -38,10 +33,6 @@ local function get_json(url)
     end
 
     chunks = chunks..chunk
-  end
-
-  if is_empty(chunks) then
-    return nil, nil, "Got empty response from server"
   end
 
   return parse_json(chunks)
