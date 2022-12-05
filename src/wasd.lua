@@ -1,12 +1,12 @@
-local function query_string(tab, sep)
+local function query_string(tbl, separator)
   local query = {}
 
-  for key, val in pairs(tab) do
+  for key, value in pairs(tbl) do
     local index = #query + 1
-    query[index] = string.format("%s=%s", key, val)
+    query[index] = string.format("%s=%s", key, value)
   end
 
-  return table.concat(query, sep)
+  return table.concat(query, separator)
 end
 
 
