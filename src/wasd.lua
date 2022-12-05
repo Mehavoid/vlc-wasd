@@ -39,6 +39,9 @@ local function get_json(url)
 end
 
 
+local LOG = "WASD: "
+
+
 WASD = {
   api_call = function(path)
     local cors = "https://corsbypasser.herokuapp.com/"
@@ -46,7 +49,7 @@ WASD = {
     local data, _, err = get_json(cors.."https://wasd.tv/api/"..path)
 
     if err then
-      vlc.msg.err("WASD: "..err)
+      vlc.msg.err(LOG..err)
       return nil
     end
 
