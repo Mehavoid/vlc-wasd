@@ -114,15 +114,10 @@ function parse()
 
   local id = tonumber(channel) or WASD.id(channel)
 
-  local playlist = {}
-
   if id == 0 then
-    return playlist
+    return { }
   end
 
-  local item = WASD.streams(id)
+  return { WASD.streams(id) }
 
-  table.insert(playlist, item)
-
-  return playlist
 end
