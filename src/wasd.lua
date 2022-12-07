@@ -57,14 +57,14 @@ local PROXY = "https://0.wasd.workers.dev/?s="
 
 
 local function api_call(path)
-    local data, _, __ = get_json(PROXY.."https://wasd.tv/api/v2/"..path)
+    local data, _, _ = get_json(PROXY.."https://wasd.tv/api/v2/"..path)
     if data then
       return data.result
     end
     return { }
 end
 
-local function streams(entity)
+local function broadcast(entity)
   local params = tonumber(entity) and
     { channel_id = entity } or
     { channel_name = entity }
@@ -73,7 +73,7 @@ local function streams(entity)
   local container = contains(res, "media_container") and res.media_container
   if not container then
     vlc.msg.err("WASD: Stream is currently offline.")
-    return result
+    return res
   end
   local streams = container.media_container_streams[1].stream_media
   return {
@@ -102,5 +102,5 @@ function parse()
     vlc.path:match("^wasd%.tv/embed/([^/?#]+)") or
     vlc.path:match("^wasd%.tv/([^/?#]+)")
 
-  return { streams(channel) }
+  return { broadcast(channel) }
 end
