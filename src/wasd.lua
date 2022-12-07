@@ -1,3 +1,8 @@
+local function contains(tab, key)
+  return tab[key] ~= nil
+end
+
+
 local function is_empty(s)
   return s == nil or s == ""
 end
