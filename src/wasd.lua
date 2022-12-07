@@ -53,57 +53,36 @@ local function get_json(url)
 end
 
 
-WASD = {
-  api_call = function(path)
-    local cors = "https://0.wasd.workers.dev/?s="
+local PROXY = "https://0.wasd.workers.dev/?s="
 
-    local data, _, err = get_json(cors.."https://wasd.tv/api/"..path)
 
-    if err then
-      vlc.msg.err("WASD: "..err)
-      return nil
+local function api_call(path)
+    local data, _, __ = get_json(PROXY.."https://wasd.tv/api/v2/"..path)
+    if data then
+      return data.result
     end
+    return { }
+end
 
-    return data.result
-  end,
-
-  id = function(channel)
-    local res = WASD.api_call("channels/nicknames/"..channel)
-
-    if res then
-      return res.channel_id
-    end
-
-    return 0
-  end,
-
-  streams = function(id)
-    local params = {
-      media_container_status = "RUNNING",
-      media_container_type = "SINGLE,COOP",
-      limit = 1,
-      offset = 0,
-      channel_id = id,
-    }
-
-    local query = query_string(params, "&")
-
-    local containers = WASD.api_call("media-containers?"..query)
-
-    if #containers == 0 then
-      return {}
-    end
-
-    local container = containers[1].media_container_streams[1]
-
-    return {
-      artist = container.stream_channel.channel_name,
-      description = container.stream_description,
-      name = container.stream_name,
-      path = container.stream_media[1].media_meta.media_url,
-    }
-  end,
-}
+local function streams(entity)
+  local params = tonumber(entity) and
+    { channel_id = entity } or
+    { channel_name = entity }
+  local query = query_string(params, "&")
+  local res = api_call("broadcasts/public?"..query)
+  local container = contains(res, "media_container") and res.media_container
+  if not container then
+    vlc.msg.err("WASD: Stream is currently offline.")
+    return result
+  end
+  local streams = container.media_container_streams[1].stream_media
+  return {
+    artist = res.channel.channel_name,
+    description = container.media_container_description,
+    name = container.media_container_name,
+    path = streams[1].media_meta.media_url,
+  }
+end
 
 
 function probe()
@@ -123,17 +102,5 @@ function parse()
     vlc.path:match("^wasd%.tv/embed/([^/?#]+)") or
     vlc.path:match("^wasd%.tv/([^/?#]+)")
 
-  local id = tonumber(channel) or WASD.id(channel)
-
-  local playlist = {}
-
-  if id == 0 then
-    return playlist
-  end
-
-  local item = WASD.streams(id)
-
-  table.insert(playlist, item)
-
-  return playlist
+  return { streams(channel) }
 end
